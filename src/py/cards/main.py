@@ -1,14 +1,14 @@
+import os
 from quart import Quart, render_template, websocket
-
 
 app = Quart(__name__)
 
 #
-# static file handler
+# root url
 #
 
 @app.route("/")
-async def hello():
+async def root():
     return await render_template("index.html")
 
 #
