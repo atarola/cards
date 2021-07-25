@@ -5,7 +5,7 @@ module.exports = {
     devtool: false,
     entry: path.resolve(__dirname, 'cards', 'index.js'),
     output: {
-        path: path.resolve(__dirname, '..', 'py', 'cards', 'static'),
+        path: path.resolve(__dirname, '..', 'py', 'static'),
         filename: 'bundle.js'
     },
     resolve: {
