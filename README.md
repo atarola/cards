@@ -4,7 +4,7 @@ A simple multiplayer card game.
 
 ### Running the Game
 
-The game is packaged as a docker container, and can be simply run in docker:
+The game is packaged as a docker container, so to run it, do:
 
     git clone git@github.com:atarola/cards.git
     cd cards
