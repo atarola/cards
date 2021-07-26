@@ -1,4 +1,5 @@
+__pycache__
 .python-version
+bundle.js
 node_modules
 yarn-error.log
-bundle.js

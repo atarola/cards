@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+}
+
+pre {
+  font-size: 8px;
+}
+
+#container {
+  display: flex;
+  margin: 10px;
+}
+
+.player-spot {
+  text-align: center;
+  display: inline-flex;
+  padding: 5px;
+  margin: 10px;
+  flex-direction: column;
+  border: 1px solid #999;
+  border-radius: 5px;
+}
+
+.button-row {
+  padding: 8px 0 5px;
+}
+
+.button-row span {
+  font-weight: bolder;
+  padding: 0 10px;
+  text-transform: capitalize;
+}
+
+.button-row span.won {
+  color: #093;
+}
+
+.button-row span.loss {
+  color: #933;
+}
+
+.card-pair {
+  display: flex;
+  flex-direction: row;
+}
+
+.card {
+  margin: 2px;
+}

@@ -1,18 +1,18 @@
-import os
-import json
-import uuid
 import asyncio
+import json
+import os
+import uuid
 from quart import Quart, render_template, websocket, request, make_response
 from werkzeug import http
 
-from cards.game import Game
+from cards.connection_pool import ConnectionPool
 
 #
 # Card API
 #
 
 app = Quart(__name__)
-game = None
+connections = None
 
 #
 # root url
@@ -40,21 +40,22 @@ async def ws():
     cookies = http.parse_cookie(websocket.headers["cookie"])
     userid = cookies.get("userid")
 
+    # async process to handle sending to the client via the websocket
     async def do_send():
-        connection = game.get_connection(userid)
+        connection = connections.get_connection(userid)
         while True:
             data = await connection.send_queue.get()
             await websocket.send_json(data)
 
+    # async process to handle data coming in from the websocket
     async def do_receive():
-        connection = game.get_connection(userid)
         while True:
             data = await websocket.receive()
-            await game.add_input(userid, json.loads(data))
+            await connections.add_input(userid, json.loads(data))
 
+    # run both the send and recieve channel
     send = asyncio.create_task(do_send())
     recieve = asyncio.create_task(do_receive())
-
     await asyncio.gather(send, recieve)
 
 #
@@ -63,11 +64,11 @@ async def ws():
 
 @app.before_first_request
 async def lifespan():
-    global game
+    global connections
 
-    game = Game()
-    asyncio.create_task(game.process_input())
-    asyncio.create_task(game.heartbeat())
+    connections = ConnectionPool()
+    asyncio.create_task(connections.process_input())
+    asyncio.create_task(connections.heartbeat())
 
 #
 # application entrypoint
